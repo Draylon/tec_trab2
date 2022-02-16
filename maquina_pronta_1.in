@@ -1,0 +1,124 @@
+
+; # = inicio da fita
+; $ = final da fita
+
+start * * r start
+start _ $ r pull
+
+
+;começa a puxar pra direita
+pull 0 _ r pull_0
+pull 1 _ r pull_1
+pull $ _ r pull_$
+pull # * r pull
+pull _ _ l pull__
+
+pull__ _ # r 0
+pull__ $ $ r pull_$
+pull__ 0 _ r pull_0
+pull__ 1 _ r pull_1
+
+;bota #|0|1|x na fita e volta
+pull_$ * $ l pull
+pull_0 * 0 l pull
+pull_1 * 1 l pull
+
+
+;=============================
+;=============================
+;=============================
+
+0 0 0 r 0
+0 _ 0 l 1
+1 0 0 l 1
+1 _ 0 r 2
+
+
+
+2 0 0 r 2
+2 _ 0 l 3
+3 0 0 l 3
+3 _ 0 r 4
+
+
+
+4 0 0 r 4
+4 _ 0 l 5
+5 0 0 l 5
+5 _ 0 r 6
+
+
+
+6 0 0 r 6
+6 _ * * halt-accept
+
+;special_to_right
+0 $ * * 0_push_end
+0_push_end $ _ r 0_push_end
+0_push_end _ $ l 0
+
+;special_to_left
+1 # * r 1_drag_start
+1_drag_start * * r 1_drag_start
+1_drag_start $ * * 1_drag
+1_drag 0 _ r 1_drag_0
+1_drag 1 _ r 1_drag_1
+1_drag $ _ r 1_drag_$
+1_drag _ _ r 1_drag__
+1_drag # * r 1 ; SAIDA
+
+1_drag_$ * $ l 1_drag_b
+1_drag_0 * 0 l 1_drag_b
+1_drag_1 * 1 l 1_drag_b
+1_drag__ * _ l 1_drag_b
+
+1_drag_b * * l 1_drag
+
+;special_to_right
+2 $ * * 2_push_end
+2_push_end $ _ r 2_push_end
+2_push_end _ $ l 2
+
+;special_to_left
+3 # * r 3_drag_start
+3_drag_start * * r 3_drag_start
+3_drag_start $ * * 3_drag
+3_drag 0 _ r 3_drag_0
+3_drag 1 _ r 3_drag_1
+3_drag $ _ r 3_drag_$
+3_drag _ _ r 3_drag__
+3_drag # * r 3 ; SAIDA
+
+3_drag_$ * $ l 3_drag_b
+3_drag_0 * 0 l 3_drag_b
+3_drag_1 * 1 l 3_drag_b
+3_drag__ * _ l 3_drag_b
+
+3_drag_b * * l 3_drag
+
+;special_to_right
+4 $ * * 4_push_end
+4_push_end $ _ r 4_push_end
+4_push_end _ $ l 4
+
+;special_to_left
+5 # * r 5_drag_start
+5_drag_start * * r 5_drag_start
+5_drag_start $ * * 5_drag
+5_drag 0 _ r 5_drag_0
+5_drag 1 _ r 5_drag_1
+5_drag $ _ r 5_drag_$
+5_drag _ _ r 5_drag__
+5_drag # * r 5 ; SAIDA
+
+5_drag_$ * $ l 5_drag_b
+5_drag_0 * 0 l 5_drag_b
+5_drag_1 * 1 l 5_drag_b
+5_drag__ * _ l 5_drag_b
+
+5_drag_b * * l 5_drag
+
+;special_to_right
+6 $ * * 6_push_end
+6_push_end $ _ r 6_push_end
+6_push_end _ $ l 6

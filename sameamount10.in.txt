@@ -1,0 +1,221 @@
+; # = inicio da fita
+; $ = final da fita
+
+start * * r start
+start _ $ r pull
+
+
+;começa a puxar pra direita
+pull 0 _ r pull_0
+pull 1 _ r pull_1
+pull $ _ r pull_$
+pull # * r pull
+pull _ _ l pull__
+
+pull__ _ # r 0
+pull__ $ $ r pull_$
+pull__ 0 _ r pull_0
+pull__ 1 _ r pull_1
+
+;bota #|0|1|x na fita e volta
+pull_$ * $ l pull
+pull_0 * 0 l pull
+pull_1 * 1 l pull
+
+
+;=============================
+;=============================
+;=============================
+
+; Regra original
+
+
+0 _ _ l 1
+0 0 0 r 0
+0 1 1 r 0
+0 B B r 0
+0 X X r 0
+1 1 _ r 2
+1 0 _ r 3
+1 _ _ r 4
+2 0 1 l 5
+2 1 1 l 5
+2 _ 1 l 5
+2 B 1 l 5
+2 X 1 l 5
+5 0 0 l 1
+5 1 1 l 1
+5 _ _ l 1
+5 B B l 1
+5 X X l 1
+3 0 0 l 6
+3 1 0 l 6
+3 _ 0 l 6
+3 B 0 l 6
+3 X 0 l 6
+6 0 0 l 1
+6 1 1 l 1
+6 _ _ l 1
+6 B B l 1
+6 X X l 1
+4 _ B r 7
+8 1 X l 9
+8 0 X l 10
+8 X X l 8
+8 B B r halt-accept
+9 1 1 l 9
+9 X X l 9
+9 0 X r 7
+10 0 0 l 10
+10 X X l 10
+10 1 X r 7
+7 _ _ l 8
+7 0 0 r 7
+7 1 1 r 7
+7 B B r 7
+7 X X r 7
+
+;=============================
+;=============================
+;=============================
+; Adicoes a maquina
+
+0 $ * * 0_push_end
+0_push_end $ _ r 0_push_end
+0_push_end _ $ l 0
+0 # * r 0_drag_start
+0_drag_start * * r 0_drag_start
+0_drag_start $ * * 0_drag
+0_drag 0 _ r 0_drag_0
+0_drag 1 _ r 0_drag_1
+0_drag $ _ r 0_drag_$
+0_drag _ _ r 0_drag__
+0_drag B _ r 0_drag_B
+0_drag X _ r 0_drag_X
+0_drag # * r 0
+0_drag_$ * $ l 0_drag_b
+0_drag_0 * 0 l 0_drag_b
+0_drag_1 * 1 l 0_drag_b
+0_drag__ * _ l 0_drag_b
+0_drag_X * X l 0_drag_b
+0_drag_b * * l 0_drag
+1 # * r 1_drag_start
+1_drag_start * * r 1_drag_start
+1_drag_start $ * * 1_drag
+1_drag 0 _ r 1_drag_0
+1_drag 1 _ r 1_drag_1
+1_drag $ _ r 1_drag_$
+1_drag _ _ r 1_drag__
+1_drag B _ r 1_drag_B
+1_drag X _ r 1_drag_X
+1_drag # * r 1
+1_drag_$ * $ l 1_drag_b
+1_drag_0 * 0 l 1_drag_b
+1_drag_1 * 1 l 1_drag_b
+1_drag__ * _ l 1_drag_b
+1_drag_X * X l 1_drag_b
+1_drag_b * * l 1_drag
+2 $ * * 2_push_end
+2_push_end $ _ r 2_push_end
+2_push_end _ $ l 2
+5 $ * * 5_push_end
+5_push_end $ _ r 5_push_end
+5_push_end _ $ l 5
+3 $ * * 3_push_end
+3_push_end $ _ r 3_push_end
+3_push_end _ $ l 3
+6 $ * * 6_push_end
+6_push_end $ _ r 6_push_end
+6_push_end _ $ l 6
+4 # * r 4_drag_start
+4_drag_start * * r 4_drag_start
+4_drag_start $ * * 4_drag
+4_drag 0 _ r 4_drag_0
+4_drag 1 _ r 4_drag_1
+4_drag $ _ r 4_drag_$
+4_drag _ _ r 4_drag__
+4_drag B _ r 4_drag_B
+4_drag X _ r 4_drag_X
+4_drag # * r 4
+4_drag_$ * $ l 4_drag_b
+4_drag_0 * 0 l 4_drag_b
+4_drag_1 * 1 l 4_drag_b
+4_drag__ * _ l 4_drag_b
+4_drag_X * X l 4_drag_b
+4_drag_b * * l 4_drag
+8 $ * * 8_push_end
+8_push_end $ _ r 8_push_end
+8_push_end _ $ l 8
+8 # * r 8_drag_start
+8_drag_start * * r 8_drag_start
+8_drag_start $ * * 8_drag
+8_drag 0 _ r 8_drag_0
+8_drag 1 _ r 8_drag_1
+8_drag $ _ r 8_drag_$
+8_drag _ _ r 8_drag__
+8_drag B _ r 8_drag_B
+8_drag X _ r 8_drag_X
+8_drag # * r 8
+8_drag_$ * $ l 8_drag_b
+8_drag_0 * 0 l 8_drag_b
+8_drag_1 * 1 l 8_drag_b
+8_drag__ * _ l 8_drag_b
+8_drag_X * X l 8_drag_b
+8_drag_b * * l 8_drag
+9 $ * * 9_push_end
+9_push_end $ _ r 9_push_end
+9_push_end _ $ l 9
+9 # * r 9_drag_start
+9_drag_start * * r 9_drag_start
+9_drag_start $ * * 9_drag
+9_drag 0 _ r 9_drag_0
+9_drag 1 _ r 9_drag_1
+9_drag $ _ r 9_drag_$
+9_drag _ _ r 9_drag__
+9_drag B _ r 9_drag_B
+9_drag X _ r 9_drag_X
+9_drag # * r 9
+9_drag_$ * $ l 9_drag_b
+9_drag_0 * 0 l 9_drag_b
+9_drag_1 * 1 l 9_drag_b
+9_drag__ * _ l 9_drag_b
+9_drag_X * X l 9_drag_b
+9_drag_b * * l 9_drag
+10 $ * * 10_push_end
+10_push_end $ _ r 10_push_end
+10_push_end _ $ l 10
+10 # * r 10_drag_start
+10_drag_start * * r 10_drag_start
+10_drag_start $ * * 10_drag
+10_drag 0 _ r 10_drag_0
+10_drag 1 _ r 10_drag_1
+10_drag $ _ r 10_drag_$
+10_drag _ _ r 10_drag__
+10_drag B _ r 10_drag_B
+10_drag X _ r 10_drag_X
+10_drag # * r 10
+10_drag_$ * $ l 10_drag_b
+10_drag_0 * 0 l 10_drag_b
+10_drag_1 * 1 l 10_drag_b
+10_drag__ * _ l 10_drag_b
+10_drag_X * X l 10_drag_b
+10_drag_b * * l 10_drag
+7 $ * * 7_push_end
+7_push_end $ _ r 7_push_end
+7_push_end _ $ l 7
+7 # * r 7_drag_start
+7_drag_start * * r 7_drag_start
+7_drag_start $ * * 7_drag
+7_drag 0 _ r 7_drag_0
+7_drag 1 _ r 7_drag_1
+7_drag $ _ r 7_drag_$
+7_drag _ _ r 7_drag__
+7_drag B _ r 7_drag_B
+7_drag X _ r 7_drag_X
+7_drag # * r 7
+7_drag_$ * $ l 7_drag_b
+7_drag_0 * 0 l 7_drag_b
+7_drag_1 * 1 l 7_drag_b
+7_drag__ * _ l 7_drag_b
+7_drag_X * X l 7_drag_b
+7_drag_b * * l 7_drag
