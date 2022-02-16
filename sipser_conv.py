@@ -29,7 +29,7 @@ def build_to_right(id):
         MachineStructure(id+"_push_end",'_','$','l',id)
     ]
 
-def build_to_left(id):
+def build_to_left(id,machine):
     #;special_to_left
     #1 # * r 1_drag_start
     #1_drag_start * * r 1_drag_start
@@ -44,29 +44,35 @@ def build_to_left(id):
     #1_drag_1 * 1 l 1_drag_b
     #1_drag__ * _ l 1_drag_b
     #1_drag_b * * l 1_drag
-    return [
+
+    allsymbols = list(get_all_symbols(id,machine))
+
+    listreturn = [
         MachineStructure(id,'#','*','r',id+"_drag_start"),
         MachineStructure(id+"_drag_start",'*','*','r',id+"_drag_start"),
         MachineStructure(id+"_drag_start",'$','*','*',id+"_drag"),
-
-        MachineStructure(id+"_drag",'0','_','r',id+"_drag_0"),
-        MachineStructure(id+"_drag",'1','_','r',id+"_drag_1"),
-        MachineStructure(id+"_drag",'$','_','r',id+"_drag_$"),
-        MachineStructure(id+"_drag",'_','_','r',id+"_drag__"),
-        MachineStructure(id+"_drag",'B','_','r',id+"_drag_B"),
-        MachineStructure(id+"_drag",'X','_','r',id+"_drag_X"),
-        
         MachineStructure(id+"_drag",'#','*','r',id),
-        
-        MachineStructure(id+"_drag_$",'*','$','l',id+"_drag_b"),
-        MachineStructure(id+"_drag_0",'*','0','l',id+"_drag_b"),
-        MachineStructure(id+"_drag_1",'*','1','l',id+"_drag_b"),
-        MachineStructure(id+"_drag__",'*','_','l',id+"_drag_b"),
-        MachineStructure(id+"_drag_X",'*','X','l',id+"_drag_b"),
-
-        MachineStructure(id+"_drag_b",'*','*','l',id+"_drag")
+        MachineStructure(id+"_drag_@",'*','*','l',id+"_drag")
     ]
+    for sym in allsymbols:
+        listreturn.append(
+            MachineStructure(id+"_drag",sym,'_','r',id+"_drag_"+sym)
+        )
+        listreturn.append(
+            MachineStructure(id+"_drag_"+sym,'*',sym,'l',id+"_drag_@")
+        )
+    return listreturn
 
+def get_all_symbols(id,machineList):
+    symbols = set()
+    for x in machineList:
+        if x.current_state == id:
+            if x.current_symbol != '*' and x.current_symbol != '#':
+                symbols.add(x.current_symbol)
+            if x.new_symbol != '*' and x.new_symbol != '#':
+                symbols.add(x.new_symbol)
+    symbols.add('$')
+    return symbols
 
 
 if __name__ == "__main__":
@@ -82,6 +88,8 @@ if __name__ == "__main__":
         l_defined = list()
         file = open(filename, "r")
         for line in file:
+            if len(line) <= 1 or line == "" or line == '\n':
+                continue
             line = str.rstrip(line)
             line=str.split(line," ")
             machine.append(MachineStructure(line[0],line[1],line[2],line[3],line[4]))
@@ -94,31 +102,31 @@ if __name__ == "__main__":
                 additions = additions + build_to_right(x.current_state)
             elif x.direction == 'r' and x.current_state not in r_defined:
                 r_defined.append(x.current_state)
-                additions = additions + build_to_left(x.current_state)
+                additions = additions + build_to_left(x.current_state,machine)
 
         default = '''; # = inicio da fita
 ; $ = final da fita
 
-start * * r start
-start _ $ r pull
+_|start|_ * * r _|start|_
+_|start|_ _ $ r _|pull|_
 
 
 ;começa a puxar pra direita
-pull 0 _ r pull_0
-pull 1 _ r pull_1
-pull $ _ r pull_$
-pull # * r pull
-pull _ _ l pull__
+_|pull|_ 0 _ r _|pull|__0
+_|pull|_ 1 _ r _|pull|__1
+_|pull|_ $ _ r _|pull|__$
+_|pull|_ # * r _|pull|_
+_|pull|_ _ _ l _|pull|___
 
-pull__ _ # r 0
-pull__ $ $ r pull_$
-pull__ 0 _ r pull_0
-pull__ 1 _ r pull_1
+_|pull|___ _ # r 0
+_|pull|___ $ $ r _|pull|__$
+_|pull|___ 0 _ r _|pull|__0
+_|pull|___ 1 _ r _|pull|__1
 
 ;bota #|0|1|x na fita e volta
-pull_$ * $ l pull
-pull_0 * 0 l pull
-pull_1 * 1 l pull
+_|pull|__$ * $ l _|pull|_
+_|pull|__0 * 0 l _|pull|_
+_|pull|__1 * 1 l _|pull|_
 
 
 ;=============================
